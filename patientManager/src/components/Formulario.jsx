@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-function Formulario() {
+function Formulario({pacientes, setPacientes}) {
   const [nombre, setNombre] = useState('');
   const [propietario, setPropietario] = useState('');
   const [email, setEmail] = useState('');
@@ -19,6 +19,23 @@ function Formulario() {
       return;
     }
     setError(false)
+
+    //objeto de paciente
+    const objetoPaciente = {
+      nombre,
+      propietario,
+      email,
+      fecha,
+      sintomas
+    }
+    setPacientes([...pacientes, objetoPaciente]); //...paciente --> refiere a tomar una copia de pacientes (spread) y se le pasa objetoPaciente, eso nos devuelve un arreglo nuevo que se asigna inmediatamente a setPacientes
+
+    //reiniciar el form
+    setNombre('')
+    setPropietario('')
+    setEmail('')
+    setFecha('')
+    setSintomas('')
   }
 
   return (
