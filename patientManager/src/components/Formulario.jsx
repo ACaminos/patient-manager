@@ -8,6 +8,12 @@ function Formulario({pacientes, setPacientes}) {
   const [fecha, setFecha] = useState('');
   const [sintomas, setSintomas] = useState('');
   const [error, setError] = useState(false);
+  const generarId = () => {
+    const random = Math.random().toString(36).substring(2);
+    const fecha = Date.now().toString(36)
+
+    return random + fecha;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +33,8 @@ function Formulario({pacientes, setPacientes}) {
       propietario,
       email,
       fecha,
-      sintomas
+      sintomas,
+      id: generarId()
     }
     setPacientes([...pacientes, objetoPaciente]); //...paciente --> refiere a tomar una copia de pacientes (spread) y se le pasa objetoPaciente, eso nos devuelve un arreglo nuevo que se asigna inmediatamente a setPacientes
 
