@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Error from './Error'
 
 function Formulario({pacientes, setPacientes}) {
   const [nombre, setNombre] = useState('');
@@ -45,11 +46,15 @@ function Formulario({pacientes, setPacientes}) {
       <p className='text-lg mt-5 text-center mb-10'>Añade pacientes y {''} <span className='text-indigo-600 font-bold'>Administralos</span></p>
 
       <form className='bg-white shadow-md rounded-lg py-10 px-5 mb-10' action="" onSubmit={handleSubmit}>
-        { error && (
-          <div className='bg-red-800 text-white text-center uppercase font-bold mb-3 rounded-md'>
-            <p>Todos los campos son obligatorios</p>
-          </div>
-          ) }
+
+        { error && <Error mensaje='Todos los campos son obligatorios'/> }
+
+        {/* Inicio - Otra forma de pasar props, uso de children */}
+
+          {/* { error && <Error> <p> Todos los campos son obligatorios </p> </Error>/> } */}
+
+        {/* Fin - Otra forma de pasar props, uso de children */}
+
         <div className='mb-5'>
           <label htmlFor='mascota' className='block text-gray-700 uppercase font-bold'>Nombre mascota</label>
           <input className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md' type="text" name="" id="mascota" value={nombre} onChange={ (e) => setNombre(e.target.value) } placeholder='Nombre de la mascota'  />
