@@ -1,13 +1,24 @@
 import { useState, useEffect } from 'react'
 import Error from './Error'
 
-function Formulario({pacientes, setPacientes}) {
+function Formulario({pacientes, setPacientes, paciente, setPaciente}) {
   const [nombre, setNombre] = useState('');
   const [propietario, setPropietario] = useState('');
   const [email, setEmail] = useState('');
   const [fecha, setFecha] = useState('');
   const [sintomas, setSintomas] = useState('');
   const [error, setError] = useState(false);
+
+  useEffect( () => {
+    if( Object.keys(paciente).length > 0){
+      setNombre(paciente.nombre)
+      setPropietario(paciente.propietario)
+      setEmail(paciente.email)
+      setFecha(paciente.fecha)
+      setSintomas(paciente.sintomas)
+    }
+  }, [paciente])
+
   const generarId = () => {
     const random = Math.random().toString(36).substring(2);
     const fecha = Date.now().toString(36)
@@ -36,7 +47,18 @@ function Formulario({pacientes, setPacientes}) {
       sintomas,
       id: generarId()
     }
-    setPacientes([...pacientes, objetoPaciente]); //...paciente --> refiere a tomar una copia de pacientes (spread) y se le pasa objetoPaciente, eso nos devuelve un arreglo nuevo que se asigna inmediatamente a setPacientes
+
+    if(paciente.id){
+      //Editando el registro
+      objetoPaciente.id = paciente.id
+      const pacientesActualizados = pacientes.map( pacienteState => pacienteState.id === paciente.id ? objetoPaciente : pacienteState )
+      setPacientes(pacientesActualizados)
+      setPaciente({})
+    }
+    else{
+      //Nuevo registro
+       setPacientes([...pacientes, objetoPaciente]); //...paciente --> refiere a tomar una copia de pacientes (spread) y se le pasa objetoPaciente, eso nos devuelve un arreglo nuevo que se asigna inmediatamente a setPacientes
+    }
 
     //reiniciar el form
     setNombre('')
@@ -82,7 +104,7 @@ function Formulario({pacientes, setPacientes}) {
           <label htmlFor='sintomas' className='block text-gray-700 uppercase font-bold'>Sintomas</label>
           <textarea className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md' id="sintomas" value={sintomas} onChange={ (e) => setSintomas(e.target.value) } placeholder='Describe los sintomas' />
         </div>
-        <input className='bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors' type="submit" value="Agregar paciente" />
+        <input type="submit" className='bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors' value={paciente.id ? 'Editar paciente' : 'Agregar paciente' } />
       </form>
     </div>
   )
