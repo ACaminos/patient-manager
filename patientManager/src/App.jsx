@@ -1,7 +1,8 @@
+import { useState, useEffect } from 'react'
 import Header from "./components/Header"
 import Formulario from "./components/Formulario"
 import ListadoPacientes from "./components/ListadoPacientes"
-import { useState, useEffect } from 'react'
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
           eliminarPaciente={eliminarPaciente}
         />
       </div>
+      <Analytics/>
     </div>
   )
 }
